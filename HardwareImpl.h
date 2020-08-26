@@ -35,14 +35,16 @@ public:
     // read a byte from the serial port. -1 = failure
     int read() {
         if (readindex >= bufferBoundary) {
-            bufferBoundary = bufferedSerial.read(&buffer, BUFFER_SIZE);
+            int avail = bufferedSerial.available();
+            if (avail > BUFFER_SIZE) bufferBoundary = bufferedSerial.read(&buffer, BUFFER_SIZE);
+            else bufferBoundary = bufferedSerial.read(&buffer, avail);
             if (bufferBoundary > 0) {
                 readindex = 0;
             } else {
                 return -1;
             }
         }
-        int returnByte = buffer[readindex];
+        uint8_t returnByte = buffer[readindex];
         ++readindex;
         return returnByte;
     }
