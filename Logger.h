@@ -25,7 +25,7 @@ private:
     std_msgs::String string;
 };
 
-logger *logger;
+Logger *logger;
 
 
 #endif //F446ZE_LOGGER_H
