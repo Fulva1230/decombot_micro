@@ -19,15 +19,15 @@ public:
     Logger &operator<<(T &&arg);
 
 private:
-    std::ostringstream _stream;
     std::reference_wrapper<ros::Publisher> _pub;
     std_msgs::String string;
 };
 
 template<class T>
 Logger &Logger::operator<<(T &&arg) {
-    _stream << std::forward<T>(arg);
-    string.data = _stream.str().c_str();
+    std::ostringstream stream;
+    stream << std::forward<T>(arg);
+    string.data = stream.str().c_str();
     _pub.get().publish(&string);
     return *this;
 }
