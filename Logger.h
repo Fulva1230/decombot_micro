@@ -12,7 +12,7 @@
 
 class Logger {
 public:
-    explicit Logger(ros::Publisher pub) : _pub(pub) {
+    explicit Logger(ros::Publisher &pub) : _pub(pub) {
     }
 
     template<class T>
