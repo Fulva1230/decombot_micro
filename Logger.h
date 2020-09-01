@@ -8,7 +8,7 @@
 #include <sstream>
 #include <functional>
 #include "std_msgs/String.h"
-#include "ros/publisher.h"
+#include "ros/node_handle.h"
 
 class Logger : public std::ostringstream {
 public:

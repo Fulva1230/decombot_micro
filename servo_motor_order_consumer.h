@@ -14,7 +14,7 @@ constexpr double MAX_SPEED(5.0); // angle per second
 
 class ServoMotorOrderConsumer {
 public:
-    ServoMotorOrderConsumer(PwmOut pwmOut, ServoMotorTransform servoMotorTransform);
+    ServoMotorOrderConsumer(PinName pinName, ServoMotorTransform servoMotorTransform);
 
     void controlroutine(const LinearDivider &linearDivider) {
         auto beginItr{linearDivider.begin()};

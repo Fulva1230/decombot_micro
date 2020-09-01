@@ -2,7 +2,6 @@
 #include "pin_definition.h"
 #include "HardwareImpl.h"
 #include <mbed.h>
-#include "ros/publisher.h"
 #include "std_msgs/String.h"
 #include "Logger.h"
 
