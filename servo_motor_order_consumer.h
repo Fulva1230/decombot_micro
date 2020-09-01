@@ -8,6 +8,7 @@
 #include <mbed.h>
 #include "lineardivider.h"
 #include "servomotortransform.h"
+#include "Logger.h"
 
 constexpr chrono::milliseconds SERVO_CONTROL_INTERVAL{50ms};
 constexpr double MAX_SPEED(5.0); // angle per second

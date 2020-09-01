@@ -10,6 +10,8 @@ ros::NodeHandle_<Hardware> nh;
 std_msgs::String dummyString;
 ros::Publisher logpub{"mculog", &dummyString};
 
+Logger *logger{};
+
 void rosSpin() {
     while (true) {
         nh.spinOnce();
@@ -23,9 +25,10 @@ int main() {
     nh.initNode();
     nh.advertise(logpub);
     Logger logger_l{logpub};
+    logger = &logger_l;
     rosSpinThread.start(&rosSpin);
     while (true) {
-        logger_l << 12345;
+        *logger << 12345;
         led = !led;
         ThisThread::sleep_for(50ms);
     }

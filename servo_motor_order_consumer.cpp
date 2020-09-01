@@ -15,6 +15,7 @@ void ServoMotorOrderConsumer::operator()(double endPos) {
     thread.start([&]() {
         while (beginItr != endItr) {
             pwmOut = *beginItr;
+            *logger << "pwm output" << *beginItr;
             ++beginItr;
         }
     });

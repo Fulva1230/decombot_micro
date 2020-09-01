@@ -32,4 +32,5 @@ Logger &Logger::operator<<(T &&arg) {
     return *this;
 }
 
+extern Logger *logger;
 #endif //F446ZE_LOGGER_H
