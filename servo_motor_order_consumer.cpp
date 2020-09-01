@@ -9,8 +9,15 @@ void ServoMotorOrderConsumer::operator()(double endPos) {
     double currentPos{servoMotorTransform.reverse(currentPosInDutyCycle)};
     int step_num = ((endPos - currentPos) / MAX_SPEED * 1000) / SERVO_CONTROL_INTERVAL.count();
     LinearDivider linearDivider = {currentPosInDutyCycle, endPosInDutyCycle, step_num};
+    auto beginItr{linearDivider.begin()};
+    auto endItr{linearDivider.end()};
     thread.terminate();
-    thread.start(std::bind(&ServoMotorOrderConsumer::controlroutine, this, linearDivider));
+    thread.start([&]() {
+        while (beginItr != endItr) {
+            pwmOut = *beginItr;
+            ++beginItr;
+        }
+    });
 }
 
 ServoMotorOrderConsumer::ServoMotorOrderConsumer(PinName pinName, ServoMotorTransform servoMotorTransform)

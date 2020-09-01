@@ -23,10 +23,9 @@ int main() {
     nh.initNode();
     nh.advertise(logpub);
     Logger logger_l{logpub};
-    logger = &logger_l;
     rosSpinThread.start(&rosSpin);
     while (true) {
-        *logger << "testmsg";
+        logger_l << 12345;
         led = !led;
         ThisThread::sleep_for(50ms);
     }
