@@ -4,8 +4,9 @@
 #include "Logger.h"
 
 Logger &Logger::operator<<(endl_t endl) {
-    _cache_string = _stream.str();
-    string.data = _cache_string.c_str();
+    uint8_t num_copy = _stream.str().copy(buffer, BUFFER_SIZE - 1);
+    buffer[num_copy] = '\0';
+    string.data = buffer;
     _pub.get().publish(&string);
     _stream.str("");
     return *this;

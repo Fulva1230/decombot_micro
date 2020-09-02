@@ -30,6 +30,7 @@ int main() {
     logger = &logger_l;
     rosSpinThread.start(&rosSpin);
     while (true) {
+        *logger << 33.33 << std::endl;
         led = !led;
         ThisThread::sleep_for(50ms);
     }
