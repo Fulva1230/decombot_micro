@@ -34,6 +34,7 @@ private:
     PwmOut pwmOut;
     double currentPosInDutyCycle; //stored as the pwm duty cycle
     ServoMotorTransform servoMotorTransform;
+    LinearDivider _cache_linearDivider{0, 0, 1};
 };
 
 

@@ -8,14 +8,14 @@ void ServoMotorOrderConsumer::operator()(double endPos) {
     double endPosInDutyCycle{servoMotorTransform(endPos)};
     double currentPos{servoMotorTransform.reverse(currentPosInDutyCycle)};
     int step_num = ((endPos - currentPos) / MAX_SPEED * 1000) / SERVO_CONTROL_INTERVAL.count();
-    LinearDivider linearDivider = {currentPosInDutyCycle, endPosInDutyCycle, step_num};
-    auto beginItr{linearDivider.begin()};
-    auto endItr{linearDivider.end()};
+    _cache_linearDivider = {currentPosInDutyCycle, endPosInDutyCycle, step_num};
     thread.terminate();
     thread.start([&]() {
+        auto beginItr{_cache_linearDivider.begin()};
+        auto endItr{_cache_linearDivider.end()};
         while (beginItr != endItr) {
             pwmOut = *beginItr;
-            *logger << "pwm output" << *beginItr;
+            *logger << "pwm output" << *beginItr << std::endl;
             ++beginItr;
         }
     });

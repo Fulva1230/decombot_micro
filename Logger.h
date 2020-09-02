@@ -10,6 +10,8 @@
 #include "std_msgs/String.h"
 #include "ros/node_handle.h"
 
+typedef std::ostream &(*endl_t)(std::ostream &);
+
 class Logger {
 public:
     explicit Logger(ros::Publisher &pub) : _pub(pub) {
@@ -18,19 +20,23 @@ public:
     template<class T>
     Logger &operator<<(T &&arg);
 
+    Logger &operator<<(endl_t endl);
+
+
 private:
     std::reference_wrapper<ros::Publisher> _pub;
+    std::ostringstream _stream;
     std_msgs::String string;
 };
 
 template<class T>
 Logger &Logger::operator<<(T &&arg) {
-    std::ostringstream stream;
-    stream << std::forward<T>(arg);
-    string.data = stream.str().c_str();
-    _pub.get().publish(&string);
+    _stream << std::forward<T>(arg);
     return *this;
 }
+
+
+
 
 extern Logger *logger;
 #endif //F446ZE_LOGGER_H

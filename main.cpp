@@ -28,7 +28,7 @@ int main() {
     logger = &logger_l;
     rosSpinThread.start(&rosSpin);
     while (true) {
-        *logger << 12345;
+        *logger << 12345 << "hello" << std::endl;
         led = !led;
         ThisThread::sleep_for(50ms);
     }
