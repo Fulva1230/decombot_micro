@@ -27,6 +27,7 @@ private:
     std::reference_wrapper<ros::Publisher> _pub;
     std::ostringstream _stream;
     std_msgs::String string;
+    std::string  _cache_string{};
 };
 
 template<class T>
