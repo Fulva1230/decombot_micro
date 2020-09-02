@@ -4,6 +4,7 @@
 #include <mbed.h>
 #include "std_msgs/String.h"
 #include "Logger.h"
+#include "ServoSub.h"
 
 ros::NodeHandle_<Hardware> nh;
 
@@ -24,11 +25,11 @@ int main() {
     DigitalOut led(LED1);
     nh.initNode();
     nh.advertise(logpub);
+    nh.subscribe(servosub);
     Logger logger_l{logpub};
     logger = &logger_l;
     rosSpinThread.start(&rosSpin);
     while (true) {
-        *logger << 12345 << "hello" << std::endl;
         led = !led;
         ThisThread::sleep_for(50ms);
     }

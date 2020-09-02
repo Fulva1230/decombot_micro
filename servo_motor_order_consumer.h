@@ -8,7 +8,6 @@
 #include <mbed.h>
 #include "lineardivider.h"
 #include "servomotortransform.h"
-#include "Logger.h"
 
 constexpr chrono::milliseconds SERVO_CONTROL_INTERVAL{50ms};
 constexpr double MAX_SPEED(5.0); // angle per second
@@ -17,22 +16,13 @@ class ServoMotorOrderConsumer {
 public:
     ServoMotorOrderConsumer(PinName pinName, ServoMotorTransform servoMotorTransform);
 
-    void controlroutine(const LinearDivider &linearDivider) {
-        auto beginItr{linearDivider.begin()};
-        auto endItr{linearDivider.end()};
-        while (beginItr != endItr) {
-            pwmOut = *beginItr;
-            ++beginItr;
-        }
-    }
-
     // the unit is angle in degree
     void operator()(double endPos);
 
 private:
     Thread thread;
     PwmOut pwmOut;
-    double currentPosInDutyCycle; //stored as the pwm duty cycle
+    double currentPosInDutyCycle{}; //stored as the pwm duty cycle
     ServoMotorTransform servoMotorTransform;
     LinearDivider _cache_linearDivider{0, 0, 1};
 };
