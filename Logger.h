@@ -10,7 +10,7 @@
 #include "std_msgs/String.h"
 #include "ros/node_handle.h"
 
-constexpr size_t BUFFER_SIZE = 64;
+constexpr size_t LOG_BUFFER_SIZE = 64;
 typedef std::ostream &(*endl_t)(std::ostream &);
 
 class Logger {
@@ -28,7 +28,7 @@ private:
     std::reference_wrapper<ros::Publisher> _pub;
     std::ostringstream _stream;
     std_msgs::String string;
-    char buffer[BUFFER_SIZE];
+    char buffer[LOG_BUFFER_SIZE];
 };
 
 template<class T>
