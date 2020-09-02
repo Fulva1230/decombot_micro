@@ -19,8 +19,10 @@ public:
     // the unit is angle in degree
     void operator()(double endPos);
 
+    void pwmCorotine();
+
 private:
-    Thread thread;
+    Thread *thread{new Thread{}};
     PwmOut pwmOut;
     double currentPosInDutyCycle{}; //stored as the pwm duty cycle
     ServoMotorTransform servoMotorTransform;
