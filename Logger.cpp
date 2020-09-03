@@ -21,13 +21,13 @@ Logger &Logger::operator<<(char *cstr) {
 
 Logger &Logger::operator<<(double arg) {
     char buf[NUMERICAL_CONVERSION_BUF_SIZE];
-    sniprintf(buf, NUMERICAL_CONVERSION_BUF_SIZE, "%f", arg);
+    snprintf(buf, NUMERICAL_CONVERSION_BUF_SIZE, "%f", arg);
     return *this << buf;
 }
 
 Logger &Logger::operator<<(int arg) {
     char buf[NUMERICAL_CONVERSION_BUF_SIZE];
-    sniprintf(buf, NUMERICAL_CONVERSION_BUF_SIZE, "%d", arg);
+    snprintf(buf, NUMERICAL_CONVERSION_BUF_SIZE, "%d", arg);
     return *this << buf;
 }
 
