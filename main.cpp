@@ -21,14 +21,17 @@ void rosSpin() {
 }
 
 int main() {
-    Thread rosSpinThread;
-    DigitalOut led(LED1);
     nh.initNode();
+    // logging functionality
     nh.advertise(logpub);
-    initServos(nh);
     LoggerImpl logger_l{logpub};
     logger = &logger_l;
+
+    initServos(nh);
+
+    Thread rosSpinThread;
     rosSpinThread.start(&rosSpin);
+    DigitalOut led(LED1);
     while (true) {
         led = !led;
         ThisThread::sleep_for(50ms);
