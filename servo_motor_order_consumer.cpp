@@ -13,6 +13,7 @@ void ServoMotorOrderConsumer::operator()(double endPos) {
     double endPosInDutyCycle{servoMotorTransform(endPos)};
     double currentPos{servoMotorTransform.reverse(currentPosInDutyCycle)};
     uint16_t step_num = (std::abs(endPos - currentPos) / MAX_SPEED * 1000) / SERVO_CONTROL_INTERVAL.count();
+    step_num = step_num == 0 ? 1 : step_num;
     *logger << "the step_num is " << step_num << std::endl;
     _cache_linearDivider = {currentPosInDutyCycle, endPosInDutyCycle, step_num};
     *logger << "before new thread start" << std::endl;
@@ -23,6 +24,7 @@ ServoMotorOrderConsumer::ServoMotorOrderConsumer(PinName pinName, ServoMotorTran
                                                  double currentPosInDutyCycle)
         : pwmOut(pinName), currentPosInDutyCycle(currentPosInDutyCycle), servoMotorTransform(servoMotorTransform) {
     pwmOut.period_ms(10);
+    operator()(servoMotorTransform.reverse(currentPosInDutyCycle));
 }
 
 void ServoMotorOrderConsumer::pwmCorotine() {

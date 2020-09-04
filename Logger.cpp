@@ -5,7 +5,7 @@
 
 constexpr uint8_t NUMERICAL_CONVERSION_BUF_SIZE = 20;
 
-Logger &Logger::operator<<(endl_t endl) {
+LoggerImpl &LoggerImpl::operator<<(endl_t endl) {
     uint8_t num_copy = _stringBuf.copy(_temp_before_publish_store, LOG_BUFFER_SIZE - 1);
     _temp_before_publish_store[num_copy] = '\0';
     _string.data = _temp_before_publish_store;
@@ -14,20 +14,35 @@ Logger &Logger::operator<<(endl_t endl) {
     return *this;
 }
 
-Logger &Logger::operator<<(const char *cstr) {
+LoggerImpl &LoggerImpl::operator<<(const char *cstr) {
     _stringBuf.append(cstr);
     return *this;
 }
 
-Logger &Logger::operator<<(double arg) {
+LoggerImpl &LoggerImpl::operator<<(double arg) {
     char buf[NUMERICAL_CONVERSION_BUF_SIZE];
     snprintf(buf, NUMERICAL_CONVERSION_BUF_SIZE, "%f", arg);
     return *this << buf;
 }
 
-Logger &Logger::operator<<(int arg) {
+LoggerImpl &LoggerImpl::operator<<(int arg) {
     char buf[NUMERICAL_CONVERSION_BUF_SIZE];
     snprintf(buf, NUMERICAL_CONVERSION_BUF_SIZE, "%d", arg);
     return *this << buf;
 }
 
+Logger &NullLogger::operator<<(double arg) {
+    return *this;
+}
+
+Logger &NullLogger::operator<<(int arg) {
+    return *this;
+}
+
+Logger &NullLogger::operator<<(const char *cstr) {
+    return *this;
+}
+
+Logger &NullLogger::operator<<(endl_t endl) {
+    return *this;
+}

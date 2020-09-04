@@ -14,17 +14,27 @@ constexpr size_t LOG_BUFFER_SIZE = 64;
 typedef std::ostream &(*endl_t)(std::ostream &);
 
 class Logger {
+    virtual Logger &operator<<(double arg) = 0;
+
+    virtual Logger &operator<<(int arg) = 0;
+
+    virtual Logger &operator<<(const char *cstr) = 0;
+
+    virtual Logger &operator<<(endl_t endl) = 0;
+};
+
+class LoggerImpl : public Logger {
 public:
-    explicit Logger(ros::Publisher &pub) : _pub(pub) {
+    explicit LoggerImpl(ros::Publisher &pub) : _pub(pub) {
     }
 
-    Logger &operator<<(double arg);
+    LoggerImpl &operator<<(double arg) override;
 
-    Logger &operator<<(int arg);
+    LoggerImpl &operator<<(int arg) override;
 
-    Logger &operator<<(const char *cstr);
+    LoggerImpl &operator<<(const char *cstr) override;
 
-    Logger &operator<<(endl_t endl);
+    LoggerImpl &operator<<(endl_t endl) override;
 
 
 private:
@@ -32,6 +42,16 @@ private:
     std_msgs::String _string;
     std::string _stringBuf;
     char _temp_before_publish_store[LOG_BUFFER_SIZE]{};
+};
+
+class NullLogger : public Logger {
+    Logger &operator<<(double arg) override;
+
+    Logger &operator<<(int arg) override;
+
+    Logger &operator<<(const char *cstr) override;
+
+    Logger &operator<<(endl_t endl) override;
 };
 
 
