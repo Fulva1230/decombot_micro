@@ -14,7 +14,7 @@ Logger &Logger::operator<<(endl_t endl) {
     return *this;
 }
 
-Logger &Logger::operator<<(char *cstr) {
+Logger &Logger::operator<<(const char *cstr) {
     _stringBuf.append(cstr);
     return *this;
 }

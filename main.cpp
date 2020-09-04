@@ -1,10 +1,9 @@
 #include <ros/node_handle.h>
-#include "pin_definition.h"
 #include "HardwareImpl.h"
 #include <mbed.h>
 #include "std_msgs/String.h"
 #include "Logger.h"
-#include "ServoSub.h"
+#include "servo_init.h"
 
 ros::NodeHandle_<Hardware> nh;
 
@@ -25,7 +24,7 @@ int main() {
     DigitalOut led(LED1);
     nh.initNode();
     nh.advertise(logpub);
-    nh.subscribe(servosub);
+    initServos(nh);
     Logger logger_l{logpub};
     logger = &logger_l;
     rosSpinThread.start(&rosSpin);

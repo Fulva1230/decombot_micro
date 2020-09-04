@@ -22,7 +22,7 @@ public:
 
     Logger &operator<<(int arg);
 
-    Logger &operator<<(char *cstr);
+    Logger &operator<<(const char *cstr);
 
     Logger &operator<<(endl_t endl);
 
@@ -31,7 +31,7 @@ private:
     std::reference_wrapper<ros::Publisher> _pub;
     std_msgs::String _string;
     std::string _stringBuf;
-    char _temp_before_publish_store[LOG_BUFFER_SIZE];
+    char _temp_before_publish_store[LOG_BUFFER_SIZE]{};
 };
 
 

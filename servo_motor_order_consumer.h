@@ -14,7 +14,8 @@ constexpr double MAX_SPEED(5.0); // angle per second
 
 class ServoMotorOrderConsumer {
 public:
-    ServoMotorOrderConsumer(PinName pinName, ServoMotorTransform servoMotorTransform);
+    ServoMotorOrderConsumer(PinName pinName, ServoMotorTransform servoMotorTransform,
+                            double currentPosInDutyCycle);
 
     // the unit is angle in degree
     void operator()(double endPos);
@@ -24,7 +25,7 @@ public:
 private:
     Thread *thread{new Thread{}};
     PwmOut pwmOut;
-    double currentPosInDutyCycle{}; //stored as the pwm duty cycle
+    double currentPosInDutyCycle; //stored as the pwm duty cycle
     ServoMotorTransform servoMotorTransform;
     LinearDivider _cache_linearDivider{0, 0, 1};
 };
