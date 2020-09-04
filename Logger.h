@@ -14,6 +14,7 @@ constexpr size_t LOG_BUFFER_SIZE = 64;
 typedef std::ostream &(*endl_t)(std::ostream &);
 
 class Logger {
+public:
     virtual Logger &operator<<(double arg) = 0;
 
     virtual Logger &operator<<(int arg) = 0;
@@ -45,6 +46,7 @@ private:
 };
 
 class NullLogger : public Logger {
+public:
     Logger &operator<<(double arg) override;
 
     Logger &operator<<(int arg) override;
