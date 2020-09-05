@@ -20,10 +20,10 @@ void ServoMotorOrderConsumer::operator()(double endPos) {
     thread->start(Callback<void()>{this, &ServoMotorOrderConsumer::pwmCorotine});
 }
 
-ServoMotorOrderConsumer::ServoMotorOrderConsumer(PinName pinName, ServoMotorTransform servoMotorTransform,
-                                                 double currentPosInDutyCycle)
-        : pwmOut(pinName), currentPosInDutyCycle(currentPosInDutyCycle), servoMotorTransform(servoMotorTransform) {
-    pwmOut.period_ms(10);
+ServoMotorOrderConsumer::ServoMotorOrderConsumer(ServoMotorTransform servoMotorTransform, double currentPosInDutyCycle,
+                                                 const ServoMotor &servoMotor)
+        : servoMotor(servoMotor), currentPosInDutyCycle(currentPosInDutyCycle),
+          servoMotorTransform(servoMotorTransform) {
     operator()(servoMotorTransform.reverse(currentPosInDutyCycle));
 }
 
@@ -32,7 +32,7 @@ void ServoMotorOrderConsumer::pwmCorotine() {
     auto endItr{_cache_linearDivider.end()};
     while (beginItr != endItr) {
         double output_pwm = *beginItr;
-        pwmOut = output_pwm;
+        servoMotor(output_pwm);
         currentPosInDutyCycle = output_pwm;
         *logger << "pwm output " << output_pwm << std::endl;
         ++beginItr;

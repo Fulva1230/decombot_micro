@@ -10,8 +10,9 @@
 #include "servo_motor_order_consumer.h"
 #include "pin_definition.h"
 #include "servo_motor_params.h"
+#include "motors_interface.h"
 
-#define SERVO_MOTOR_ORDER_CONSUMER(index) ServoMotorOrderConsumer servoMotorOrderConsumer_##index{ARM_##index##_PWM, ServoMotorTransform{ARM_##index##_SCALE, ARM_##index##_OFFSET}, ARM_##index##_DEFAULT_PWM};
+#define SERVO_MOTOR_ORDER_CONSUMER(index) ServoMotorOrderConsumer servoMotorOrderConsumer_##index{ServoMotorTransform{ARM_##index##_SCALE, ARM_##index##_OFFSET}, ARM_##index##_DEFAULT_PWM, ServoMotor{arm##index##driver}};
 #define SERVO_MOTOR_SUB_WRAPPER(index) ServoMotorSubWrapper servoMotorSubWrapper_##index{"servo_"#index"_angle", servoMotorOrderConsumer_##index};
 
 class ServoMotorSubWrapper {
