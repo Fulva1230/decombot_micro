@@ -8,49 +8,62 @@
 #include "mbed.h"
 #include "pin_definition.h"
 
-struct DcMotorDrivers {
+struct DcMotorDriver {
     PwmOut _gain;
     DigitalOut _d1;
     DigitalOut _d2;
 };
 
-class DcMotors {
+class DcMotor {
 public:
-    explicit DcMotors(DcMotorDrivers &dcMotorsPins) :
-            _gain(&dcMotorsPins._gain),
-            _d1(&dcMotorsPins._d1),
-            _d2(&dcMotorsPins._d2) {
+    explicit DcMotor(DcMotorDriver &dcMotorDriver) : dcMotorDriver(dcMotorDriver) {
     }
 
     // the velocity should be between -1 to 1
     void operator()(double velocity) {
         if (velocity > 0) {
-            *_d1 = 1;
-            *_d2 = 0;
-            *_gain = velocity;
+            dcMotorDriver._d1 = 1;
+            dcMotorDriver._d2 = 0;
+            dcMotorDriver._gain = velocity;
         } else {
-            *_d2 = 1;
-            *_d1 = 0;
-            *_gain = -velocity;
+            dcMotorDriver._d2 = 1;
+            dcMotorDriver._d1 = 0;
+            dcMotorDriver._gain = -velocity;
         }
     }
 
 private:
-    PwmOut *_gain;
-    DigitalOut *_d1;
-    DigitalOut *_d2;
+    DcMotorDriver &dcMotorDriver;
 };
 
-DcMotorDrivers left_motor_driver{
-        ._gain{MOBILE_LEFT_PWM},
-        ._d1{MOBILE_LEFT_D1},
-        ._d2{MOBILE_LEFT_D2},
+struct ServoMotorDriver {
+    PwmOut pwmOut;
 };
 
-DcMotorDrivers right_motor_driver{
-        ._gain{MOBILE_RIGHT_PWM},
-        ._d1{MOBILE_RIGHT_D1},
-        ._d2{MOBILE_RIGHT_D2},
+class ServoMotor {
+public:
+    explicit ServoMotor(ServoMotorDriver &servoMotorDriver) : servoMotorDriver(servoMotorDriver) {
+        servoMotorDriver.pwmOut.period_ms(10);
+    }
+
+    void operator()(float dutyCycle) {
+        servoMotorDriver.pwmOut = dutyCycle;
+    }
+
+private:
+    ServoMotorDriver &servoMotorDriver;
 };
+
+extern DcMotorDriver left_motor_driver;
+
+extern DcMotorDriver right_motor_driver;
+
+extern ServoMotorDriver arm0driver;
+extern ServoMotorDriver arm1driver;
+extern ServoMotorDriver arm2driver;
+extern ServoMotorDriver arm3driver;
+extern ServoMotorDriver arm4driver;
+extern ServoMotorDriver arm5driver;
+
 
 #endif //F446ZE_MOTORS_INTERFACE_H
