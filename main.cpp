@@ -1,3 +1,4 @@
+#include "motors_interface.h"
 #include <ros/node_handle.h>
 #include "HardwareImpl.h"
 #include <mbed.h>

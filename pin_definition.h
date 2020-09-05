@@ -24,6 +24,11 @@ constexpr PinName ARM_5_PWM = PB_11; //TIM2/4
 constexpr PinName MOBILE_LEFT_PWM = PC_8; //TIM3/3
 constexpr PinName MOBILE_RIGHT_PWM = PC_9; //TIM3/4
 
+constexpr PinName MOBILE_LEFT_D1 = PG_2;
+constexpr PinName MOBILE_LEFT_D2 = PG_3;
+
+constexpr PinName MOBILE_RIGHT_D1 = PF_0;
+constexpr PinName MOBILE_RIGHT_D2 = PF_1;
 
 
 #endif //F446ZE_PIN_DEFINITION_H
