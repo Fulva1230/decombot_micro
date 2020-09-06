@@ -1,11 +1,10 @@
-#include "motors_interface.h"
+#include "mobile_init.h"
 #include <ros/node_handle.h>
 #include "HardwareImpl.h"
 #include <mbed.h>
 #include "std_msgs/String.h"
 #include "Logger.h"
 #include "servo_init.h"
-#include "encoder.h"
 
 ros::NodeHandle_<Hardware> nh;
 
@@ -30,6 +29,7 @@ int main() {
     logger = &logger_l;
 
     initServos(nh);
+    initMobile(nh);
 
     Thread rosSpinThread;
     rosSpinThread.start(&rosSpin);
