@@ -46,8 +46,11 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim) {
 }
 
 TIM_Base_InitTypeDef baseInitTypeDef{
+        .Prescaler=0x0000U,
         .CounterMode = TIM_COUNTERMODE_UP,
+        .Period=0xFFFFU,
         .ClockDivision = TIM_CLOCKDIVISION_DIV4,
+        .RepetitionCounter = 0x00,
         .AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE,
 };
 
