@@ -21,6 +21,23 @@ void rosSpin() {
     }
 }
 
+void disconnectProtect() {
+    while (true) {
+        if (nh.connected()) {
+            break;
+        }
+        ThisThread::sleep_for(1000ms);
+    }
+    Watchdog::get_instance().start(500);
+    while (true) {
+        if (nh.connected()) {
+            Watchdog::get_instance().kick();
+        }
+        ThisThread::sleep_for(200ms);
+    }
+
+}
+
 int main() {
     nh.initNode();
     // logging functionality
@@ -33,6 +50,9 @@ int main() {
 
     Thread rosSpinThread;
     rosSpinThread.start(&rosSpin);
+
+    Thread watchdogThread;
+    watchdogThread.start(&disconnectProtect);
     DigitalOut led(LED1);
     while (true) {
         led = !led;

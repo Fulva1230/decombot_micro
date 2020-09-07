@@ -15,6 +15,7 @@ namespace {
         BACKWARD,
         LEFT,
         RIGHT,
+        STOP,
     };
 }
 
@@ -40,13 +41,17 @@ void mobile_control_cb(const std_msgs::Int16 &msg) {
             left_motor(1);
             right_motor(-1);
             break;
+        case static_cast<int>(MOBILE_DIR::STOP):
+            left_motor(0);
+            right_motor(0);
+            break;
     }
 }
 
 ros::Subscriber<std_msgs::Int16> mobile_sub{"mobile_dir", &mobile_control_cb};
 
 template<class node_t>
-void initMobile(node_t& nh){
+void initMobile(node_t &nh) {
     nh.subscribe(mobile_sub);
 }
 
