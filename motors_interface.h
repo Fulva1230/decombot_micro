@@ -79,11 +79,7 @@ ServoMotorDriver *servoMotorDrivers[]{&arm0driver,
                                       &arm4driver,
                                       &arm5driver};
 
-void servo_driver_init() {
-    for (auto &servo_driver: servoMotorDrivers) {
-        servo_driver->init();
-    }
-}
+void servo_driver_init();
 
 
 #endif //F446ZE_MOTORS_INTERFACE_H
