@@ -3,7 +3,7 @@
 #include "HardwareImpl.h"
 #include <mbed.h>
 #include "std_msgs/String.h"
-#include "std_msgs/Empty.h"
+#include "std_msgs/Int16.h"
 #include "Logger.h"
 #include "servo_init.h"
 
@@ -23,22 +23,20 @@ void rosSpin() {
     }
 }
 
-void watchdog_kick(const std_msgs::Empty &) {
-    Watchdog::get_instance().kick();
-}
-
-ros::Subscriber<std_msgs::Empty> watchdog_sub("mcu_watchdog", &watchdog_kick);
-
-void disconnectProtect() {
-    while (true) {
-        if (nh.connected()) {
-            break;
-        }
-        ThisThread::sleep_for(1000ms);
+void watchdog_kick(const std_msgs::Int16 &dummy) {
+    *logger << "watckdog_fun_call" << std::endl;
+    static bool isEnable(false);
+    if (!isEnable) {
+        isEnable = true;
+        Watchdog::get_instance().start(500);
+        *logger << "start watchdog" << std::endl;
+    } else {
+        Watchdog::get_instance().kick();
+        *logger << "kick watchdog" << std::endl;
     }
-    Watchdog::get_instance().start(500);
-    nh.subscribe(watchdog_sub);
 }
+
+ros::Subscriber<std_msgs::Int16> watchdog_sub("mcu_watchdog", &watchdog_kick);
 
 int main() {
     nh.initNode();
@@ -53,9 +51,8 @@ int main() {
 
     Thread rosSpinThread;
     rosSpinThread.start(&rosSpin);
+    nh.subscribe(watchdog_sub);
 
-    Thread watchdogThread;
-    watchdogThread.start(&disconnectProtect);
     DigitalOut led(LED1);
     while (true) {
         led = !led;
