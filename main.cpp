@@ -3,6 +3,7 @@
 #include "HardwareImpl.h"
 #include <mbed.h>
 #include "std_msgs/String.h"
+#include "std_msgs/Empty.h"
 #include "Logger.h"
 #include "servo_init.h"
 
@@ -10,6 +11,7 @@ ros::NodeHandle_<Hardware> nh;
 
 std_msgs::String dummyString;
 ros::Publisher logpub{"mculog", &dummyString};
+
 
 NullLogger nullLogger;
 Logger *logger{&nullLogger};
@@ -21,6 +23,12 @@ void rosSpin() {
     }
 }
 
+void watchdog_kick(const std_msgs::Empty &) {
+    Watchdog::get_instance().kick();
+}
+
+ros::Subscriber<std_msgs::Empty> watchdog_sub("mcu_watchdog", &watchdog_kick);
+
 void disconnectProtect() {
     while (true) {
         if (nh.connected()) {
@@ -29,13 +37,7 @@ void disconnectProtect() {
         ThisThread::sleep_for(1000ms);
     }
     Watchdog::get_instance().start(500);
-    while (true) {
-        if (nh.connected()) {
-            Watchdog::get_instance().kick();
-        }
-        ThisThread::sleep_for(200ms);
-    }
-
+    nh.subscribe(watchdog_sub);
 }
 
 int main() {
