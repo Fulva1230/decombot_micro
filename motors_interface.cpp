@@ -24,6 +24,13 @@ ServoMotorDriver arm3driver{ARM_3_PWM};
 ServoMotorDriver arm4driver{ARM_4_PWM};
 ServoMotorDriver arm5driver{ARM_5_PWM};
 
+ServoMotorDriver *servoMotorDrivers[]{&arm0driver,
+                                      &arm1driver,
+                                      &arm2driver,
+                                      &arm3driver,
+                                      &arm4driver,
+                                      &arm5driver};
+
 void servo_driver_init() {
     for (auto &servo_driver: servoMotorDrivers) {
         servo_driver->init();

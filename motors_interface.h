@@ -72,12 +72,7 @@ extern ServoMotorDriver arm3driver;
 extern ServoMotorDriver arm4driver;
 extern ServoMotorDriver arm5driver;
 
-ServoMotorDriver *servoMotorDrivers[]{&arm0driver,
-                                      &arm1driver,
-                                      &arm2driver,
-                                      &arm3driver,
-                                      &arm4driver,
-                                      &arm5driver};
+extern ServoMotorDriver *servoMotorDrivers[];
 
 void servo_driver_init();
 
