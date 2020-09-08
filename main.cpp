@@ -47,6 +47,7 @@ int main() {
     LoggerImpl logger_l{logpub};
     logger = &logger_l;
 
+    servo_driver_init();
     initServos(nh);
     initMobile(nh);
 

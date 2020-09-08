@@ -5,11 +5,11 @@
 #ifndef F446ZE_ENCODER_H
 #define F446ZE_ENCODER_H
 
-#include "stm32f446xx.h"
-#include "stm32f4xx_hal_rcc.h"
-#include "stm32f4xx_hal_tim.h"
-#include "stm32f4xx_hal_gpio_ex.h"
-#include "stm32f4xx_hal_gpio.h"
+#include "stm32f767xx.h"
+#include "stm32f7xx_hal_rcc.h"
+#include "stm32f7xx_hal_tim.h"
+#include "stm32f7xx_hal_gpio_ex.h"
+#include "stm32f7xx_hal_gpio.h"
 
 GPIO_InitTypeDef encoder_gpio{
         .Pin = GPIO_PIN_0,
