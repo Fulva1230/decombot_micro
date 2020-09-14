@@ -11,7 +11,7 @@
 #include "motors_interface.h"
 
 constexpr chrono::milliseconds SERVO_CONTROL_INTERVAL{50ms};
-constexpr double MAX_SPEED(5.0); // angle per second
+constexpr double MAX_SPEED(30.0); // angle per second
 
 class ServoMotorOrderConsumer {
 public:
@@ -22,6 +22,8 @@ public:
     void operator()(double endPos);
 
     void pwmCorotine();
+
+    void init();
 
 private:
     Thread *thread{new Thread{}};

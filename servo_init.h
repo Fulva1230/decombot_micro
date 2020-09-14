@@ -50,16 +50,28 @@ SERVO_MOTOR_SUB_WRAPPER(3)
 SERVO_MOTOR_SUB_WRAPPER(4)
 SERVO_MOTOR_SUB_WRAPPER(5)
 
-ServoMotorSubWrapper *servoMotorSubWrapper[] = {&servoMotorSubWrapper_0,
-                                                &servoMotorSubWrapper_1,
-                                                &servoMotorSubWrapper_2,
-                                                &servoMotorSubWrapper_3,
-                                                &servoMotorSubWrapper_4,
-                                                &servoMotorSubWrapper_5};
+ServoMotorOrderConsumer *servoMotorOrderConsumers[] = {
+        &servoMotorOrderConsumer_0,
+        &servoMotorOrderConsumer_1,
+        &servoMotorOrderConsumer_2,
+        &servoMotorOrderConsumer_3,
+        &servoMotorOrderConsumer_4,
+        &servoMotorOrderConsumer_5
+};
+
+ServoMotorSubWrapper *servoMotorSubWrappers[] = {&servoMotorSubWrapper_0,
+                                                 &servoMotorSubWrapper_1,
+                                                 &servoMotorSubWrapper_2,
+                                                 &servoMotorSubWrapper_3,
+                                                 &servoMotorSubWrapper_4,
+                                                 &servoMotorSubWrapper_5};
 
 template<class... T>
 void initServos(T &&...args) {
-    for (auto servosub : servoMotorSubWrapper) {
+    for (auto servoOrderConsumer : servoMotorOrderConsumers) {
+        servoOrderConsumer->init();
+    }
+    for (auto servosub : servoMotorSubWrappers) {
         servosub->init(std::forward<T>(args)...);
     }
 }

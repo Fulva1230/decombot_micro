@@ -19,7 +19,6 @@ Logger *logger{&nullLogger};
 void rosSpin() {
     while (true) {
         nh.spinOnce();
-        ThisThread::sleep_for(20ms);
     }
 }
 
@@ -41,9 +40,9 @@ ros::Subscriber<std_msgs::Int16> watchdog_sub("mcu_watchdog", &watchdog_kick);
 int main() {
     nh.initNode();
     // logging functionality
-    nh.advertise(logpub);
-    LoggerImpl logger_l{logpub};
-    logger = &logger_l;
+//    nh.advertise(logpub);
+//    LoggerImpl logger_l{logpub};
+//    logger = &logger_l;
 
     servo_driver_init();
     initServos(nh);

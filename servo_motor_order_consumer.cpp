@@ -24,7 +24,6 @@ ServoMotorOrderConsumer::ServoMotorOrderConsumer(ServoMotorTransform servoMotorT
                                                  const ServoMotor &servoMotor)
         : servoMotor(servoMotor), currentPosInDutyCycle(currentPosInDutyCycle),
           servoMotorTransform(servoMotorTransform) {
-    operator()(servoMotorTransform.reverse(currentPosInDutyCycle));
 }
 
 void ServoMotorOrderConsumer::pwmCorotine() {
@@ -38,5 +37,9 @@ void ServoMotorOrderConsumer::pwmCorotine() {
         ++beginItr;
         ThisThread::sleep_for(SERVO_CONTROL_INTERVAL);
     }
+}
+
+void ServoMotorOrderConsumer::init() {
+    operator()(servoMotorTransform.reverse(currentPosInDutyCycle));
 }
 
