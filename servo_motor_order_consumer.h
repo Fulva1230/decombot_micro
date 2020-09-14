@@ -11,8 +11,8 @@
 #include "motors_interface.h"
 
 constexpr chrono::milliseconds SERVO_CONTROL_INTERVAL{50ms};
-constexpr double KP = 2;
-constexpr double KD = 2 * 1.732;
+constexpr double KP = 4;
+constexpr double KD = 3.8;
 
 class ServoMotorOrderConsumer {
 public:
