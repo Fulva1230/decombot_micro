@@ -6,12 +6,13 @@
 #define F446ZE_SERVO_MOTOR_ORDER_CONSUMER_H
 
 #include <mbed.h>
-#include "lineardivider.h"
+#include "open_pd_controller.h"
 #include "servomotortransform.h"
 #include "motors_interface.h"
 
 constexpr chrono::milliseconds SERVO_CONTROL_INTERVAL{50ms};
-constexpr double MAX_SPEED(30.0); // angle per second
+constexpr double KP = 2;
+constexpr double KD = 2 * 1.732;
 
 class ServoMotorOrderConsumer {
 public:
@@ -26,11 +27,11 @@ public:
     void init();
 
 private:
-    Thread *thread{new Thread{}};
+    Thread thread;
+    Timer timer;
     ServoMotor servoMotor;
-    double currentPosInDutyCycle; //stored as the pwm duty cycle
     ServoMotorTransform servoMotorTransform;
-    LinearDivider _cache_linearDivider{0, 0, 1};
+    OpenPDController openPdController;
 };
 
 

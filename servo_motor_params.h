@@ -7,7 +7,7 @@
 
 constexpr double ARM_SCALE[] = {0.0008, 0.001176, 0.001176, 0.001176, 0.001176, 0.001176};
 constexpr double ARM_OFFSET[] = {0.05, 0.1, 0.05, 0.05, 0.05, 0.05};
-constexpr double ARM_DEFAULT_PWM[] = {0.122, 0.1, 0.14, 0.15, 0.167647, 0.25};
+constexpr double ARM_DEFAULT_PWM[] = {0.122, 0.1, 0.14, 0.15, 0.167647, 0.05};
 
 constexpr double ARM_0_SCALE = ARM_SCALE[0];
 constexpr double ARM_0_OFFSET = ARM_OFFSET[0];
